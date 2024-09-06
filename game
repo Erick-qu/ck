@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .options button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .options button:hover {
+            transform: scale(1.1);
+        }
+        .correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .error-image {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quizContainer">
+        <div class="question" id="question">Does she studies english?</div>
+        <div class="options">
+            <button class="correct" onclick="checkAnswer(true)">Correct</button>
+            <button class="incorrect" onclick="checkAnswer(false)">Incorrect</button>
+        </div>
+        <div id="result"></div>
+        <img id="errorImage" class="hidden" src="https://via.placeholder.com/100x100.png?text=X" alt="Error Image">
+    </div>
+
+    <script>
+        const questions = [
+            { text: "Does she studies english?", correct: false },
+            { text: "He go to school every day.", correct: false },
+            { text: "They are playing football.", correct: true }
+        ];
+        let currentQuestion = 0;
+
+        function checkAnswer(isCorrect) {
+            const result = document.getElementById('result');
+            const errorImage = document.getElementById('errorImage');
+            const quizContainer = document.getElementById('quizContainer');
+            if (isCorrect === questions[currentQuestion].correct) {
+                result.textContent = 'Correct!';
+                result.style.color = 'green';
+                errorImage.classList.add('hidden');
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    setTimeout(() => {
+                        quizContainer.style.opacity = 0;
+                        setTimeout(() => {
+                            document.getElementById('question').textContent = questions[currentQuestion].text;
+                            quizContainer.style.opacity = 1;
+                        }, 500);
+                    }, 500);
+                } else {
+                    result.textContent = 'Quiz Completed!';
+                }
+            } else {
+                result.textContent = 'Incorrect!';
+                result.style.color = 'red';
+                errorImage.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
